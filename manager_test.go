@@ -7,6 +7,7 @@ import (
 
 	"github.com/cucumber/godog"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.nhat.io/consolesteps"
 	"go.nhat.io/surveyexpect"
 )
@@ -64,7 +65,7 @@ func TestManager_ExpectationsWereNotMet(t *testing.T) {
 
 	c.NewConsole(sc)
 
-	assert.Nil(t, s.expectPasswordAnswer("Enter password:", "password"))
+	require.NoError(t, s.expectPasswordAnswer("Enter password:", "password"))
 
 	<-time.After(50 * time.Millisecond)
 

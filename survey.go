@@ -4,7 +4,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.nhat.io/surveyexpect"
 )
 
@@ -69,7 +69,7 @@ func (s *Survey) Expect(c surveyexpect.Console) error {
 // Start starts a new survey.
 func (s *Survey) Start(console surveyexpect.Console) *Survey {
 	go func() {
-		assert.NoError(s.test, s.Expect(console))
+		require.NoError(s.test, s.Expect(console))
 	}()
 
 	return s
