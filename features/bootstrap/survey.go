@@ -19,20 +19,20 @@ type Prompt struct {
 	mu    sync.Mutex
 }
 
-// RegisterContext register Prompt to a *godog.ScenarioContext.
-func (p *Prompt) RegisterContext(ctx *godog.ScenarioContext) {
-	ctx.Step(`ask for confirm "([^"]*)" with help "([^"]*)", receive yes`, p.askConfirmWithHelpYes)
-	ctx.Step(`ask for confirm "([^"]*)" with help "([^"]*)", receive no`, p.askConfirmWithHelpNo)
-	ctx.Step(`ask for confirm "([^"]*)", receive yes`, p.askConfirmWithoutHelpYes)
-	ctx.Step(`ask for confirm "([^"]*)", receive no`, p.askConfirmWithoutHelpNo)
-	ctx.Step(`ask for confirm "([^"]*)", get interrupted`, p.askConfirmInterrupted)
+// RegisterSteps register Prompt to a *godog.ScenarioContext.
+func (p *Prompt) RegisterSteps(s *godog.ScenarioContext) {
+	s.Step(`ask for confirm "([^"]*)" with help "([^"]*)", receive yes`, p.askConfirmWithHelpYes)
+	s.Step(`ask for confirm "([^"]*)" with help "([^"]*)", receive no`, p.askConfirmWithHelpNo)
+	s.Step(`ask for confirm "([^"]*)", receive yes`, p.askConfirmWithoutHelpYes)
+	s.Step(`ask for confirm "([^"]*)", receive no`, p.askConfirmWithoutHelpNo)
+	s.Step(`ask for confirm "([^"]*)", get interrupted`, p.askConfirmInterrupted)
 
-	ctx.Step(`ask for multiline "([^"]*)", receive:`, p.askMultilineWithAnswer)
-	ctx.Step(`ask for multiline "([^"]*)", get interrupted`, p.askMultilineInterrupted)
+	s.Step(`ask for multiline "([^"]*)", receive:`, p.askMultilineWithAnswer)
+	s.Step(`ask for multiline "([^"]*)", get interrupted`, p.askMultilineInterrupted)
 
-	ctx.Step(`ask for password "([^"]*)" with help "([^"]*)", receive "([^"]*)"`, p.askPasswordWithHelp)
-	ctx.Step(`ask for password "([^"]*)", receive "([^"]*)"`, p.askPasswordWithoutHelp)
-	ctx.Step(`ask for password "([^"]*)", get interrupted`, p.askPasswordInterrupted)
+	s.Step(`ask for password "([^"]*)" with help "([^"]*)", receive "([^"]*)"`, p.askPasswordWithHelp)
+	s.Step(`ask for password "([^"]*)", receive "([^"]*)"`, p.askPasswordWithoutHelp)
+	s.Step(`ask for password "([^"]*)", get interrupted`, p.askPasswordInterrupted)
 }
 
 // WithStdio configures stdio for a given scenario.

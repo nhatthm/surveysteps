@@ -54,25 +54,32 @@ func (m *Manager) registerConsole(ctx *godog.ScenarioContext) {
 }
 
 // RegisterContext register the survey to a *godog.ScenarioContext.
-func (m *Manager) RegisterContext(ctx *godog.ScenarioContext) {
-	m.registerConsole(ctx)
+//
+// Deprecated: Use Manager.RegisterSteps instead.
+func (m *Manager) RegisterContext(s *godog.ScenarioContext) {
+	m.RegisterSteps(s)
+}
+
+// RegisterSteps register the survey to a *godog.ScenarioContext.
+func (m *Manager) RegisterSteps(s *godog.ScenarioContext) {
+	m.registerConsole(s)
 
 	// Confirm prompt
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? yes`, m.expectConfirmYes)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? no`, m.expectConfirmNo)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? "([^"]*)"`, m.expectConfirmAnswer)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* interrupts?`, m.expectConfirmInterrupt)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* asks? for help and sees? "([^"]*)"`, m.expectConfirmHelp)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? yes`, m.expectConfirmYes)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? no`, m.expectConfirmNo)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* answers? "([^"]*)"`, m.expectConfirmAnswer)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* interrupts?`, m.expectConfirmInterrupt)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? confirm prompt "([^"]*)".* asks? for help and sees? "([^"]*)"`, m.expectConfirmHelp)
 
 	// Multiline prompt.
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* answers? "([^"]*)"`, m.expectMultilineAnswer)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* answers?:`, m.expectMultilineAnswerMultiline)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* interrupts?`, m.expectMultilineInterrupt)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* answers? "([^"]*)"`, m.expectMultilineAnswer)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* answers?:`, m.expectMultilineAnswerMultiline)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? multiline prompt "([^"]*)".* interrupts?`, m.expectMultilineInterrupt)
 
 	// Password prompt.
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* answers? "([^"]*)"`, m.expectPasswordAnswer)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* interrupts?`, m.expectPasswordInterrupt)
-	ctx.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* asks? for help and sees? "([^"]*)"`, m.expectPasswordHelp)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* answers? "([^"]*)"`, m.expectPasswordAnswer)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* interrupts?`, m.expectPasswordInterrupt)
+	s.Step(`(?:(?:get)|(?:see))s? a(?:nother)? password prompt "([^"]*)".* asks? for help and sees? "([^"]*)"`, m.expectPasswordHelp)
 }
 
 func (m *Manager) start(sc *godog.Scenario, console *expect.Console) {
@@ -101,7 +108,7 @@ func (m *Manager) close(sc *godog.Scenario) {
 		s.Close()
 		delete(m.surveys, sc.Id)
 
-		assert.NoError(m.test, m.expectationsWereMet(sc.Name, s))
+		assert.NoError(m.test, m.expectationsWereMet(sc.Name, s)) //nolint: testifylint
 	}
 
 	m.current = ""
