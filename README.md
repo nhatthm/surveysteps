@@ -1,5 +1,3 @@
-> ⚠️ This module is deprecated. Please use [go.nhat.io/surveysteps](https://github.com/nhatthm/surveysteps) instead.
-
 # Cucumber Survey steps for Go
 
 [![GitHub Releases](https://img.shields.io/github/v/release/nhatthm/surveysteps)](https://github.com/nhatthm/surveysteps/releases/latest)
